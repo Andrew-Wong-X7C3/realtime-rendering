@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<title> 5542 - Lab 4 </title>
+
+<!--  ************** Fragment Shader ************* --> 
+<script id="shader-fs" type="x-shader/x-fragment">
+    precision mediump float;
+    precision mediump int;
+
+    uniform mat4 uMMatrix; 
+    uniform mat4 uVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uNMatrix; 
+
+    uniform vec4 light_pos; 
+    uniform vec4 ambient_coef;
+    uniform vec4 diffuse_coef;
+    uniform vec4 specular_coef;
+    uniform float mat_shininess; 
+
+    uniform vec4 light_ambient; 
+    uniform vec4 light_diffuse; 
+    uniform vec4 light_specular;
+
+    uniform int use_texture;
+    uniform sampler2D texture;
+
+    varying vec4 eye_pos; 
+    varying vec3 v_normal;
+    varying vec4 vColor; 
+    varying highp vec2 FtexCoord;
+
+    void main(void) {
+
+        // transform light pos from local to eye space
+        vec4 light_pos_in_eye = uVMatrix * light_pos;
+
+        // light vector L = l-p 
+        vec3 light_vector = normalize(vec3(light_pos_in_eye - eye_pos)); 
+
+        // eye vector V = e-p, where e is (0,0,0) 
+        vec3 eye_vector = normalize(-vec3(eye_pos));
+
+        // halfway vector (L+V) 
+        vec4 ambient = ambient_coef * light_ambient; 
+        float ndotl = max(dot(v_normal, light_vector), 0.0); 
+
+        vec4 diffuse = diffuse_coef * light_diffuse * ndotl;
+        vec3 R = normalize(2.0 * ndotl * v_normal-eye_vector);
+        float rdotv = max(dot(R, eye_vector), 0.0);
+
+        vec4 specular;  
+        if (ndotl > 0.0) 
+            specular = specular_coef * light_specular * pow(rdotv, mat_shininess); 
+        else
+            specular = vec4(0,0,0,1);  
+
+
+        // check to apply texture
+        if ( use_texture == 1 ) {
+            gl_FragColor = texture2D(texture, FtexCoord);
+        }
+        else {
+            gl_FragColor = vColor;
+        }
+        
+        gl_FragColor += ambient + diffuse + specular;
+
+    }
+</script>
+<!--  ************** Vertex Shader ************* --> 
+<script id="shader-vs" type="x-shader/x-vertex">
+    precision mediump float;
+    precision mediump int;
+
+    attribute vec3 aVertexPosition;
+    attribute vec3 aVertexNormal;
+    attribute vec3 aVertexColor;
+    attribute vec2 aVertexTexCoords;
+
+    uniform mat4 uMMatrix; 
+    uniform mat4 uVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uNMatrix; 
+
+    varying vec4 eye_pos;
+    varying vec3 v_normal;
+    varying vec4 vColor;
+    varying highp vec2 FtexCoord;
+
+    void main(void) {
+        // transform the vertex position to eye space
+        eye_pos = uVMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
+
+        v_normal = normalize(vec3(uNMatrix * vec4(aVertexNormal,0.0)));
+        gl_Position = uPMatrix * uVMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
+
+        FtexCoord = aVertexTexCoords;
+        vColor = vec4(aVertexColor, 1.0);
+    }
+</script>
+
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+<script type="text/javascript" src="shaders_setup.js"></script>
+<script type="text/javascript" src="init_buffer.js"></script>
+<script type="text/javascript" src="transformation.js"></script>
+<script type="text/javascript" src="lab_4.js"></script>
+</head>
+
+<body onload="webGLStart();">
+    <div id="loading">
+        <font size="10"> LOADING ... </font>
+    </div>
+    <canvas id="code00-canvas" width="500" height="500"></canvas>
+</body>
+</html>
