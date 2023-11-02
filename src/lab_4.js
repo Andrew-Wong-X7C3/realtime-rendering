@@ -52,7 +52,7 @@ function onKeyDown(event) {
         playerMatrix = multiply(translation( 0.00,  0.00, -0.01), playerMatrix);
     }
 
-    var primitive = sceneObjects.find(primitive => {return primitive.name == "model"});
+    var primitive = sceneObjects.find(primitive => {return primitive.name == "centroid"});
     if (event.key == 'ArrowRight') {
         primitive.localMatrix = multiply(primitive.localMatrix, rotation(0,  10, 0));
     }
@@ -167,6 +167,22 @@ async function initBuffers() {
         new Primitive("arm_head",   initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
                                                                     [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), []),
 
+        new Primitive("grab_head",  initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), ["grab_top_1", "grab_top_2"]),
+        new Primitive("grab_top_1", initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), ["grab_1", "grab_2"]),
+        new Primitive("grab_top_2", initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), ["grab_3", "grab_4"]),
+        new Primitive("grab_1",     initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), []),
+        new Primitive("grab_2",     initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), []),
+        new Primitive("grab_3",     initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), []),
+        new Primitive("grab_4",     initCube(gl, size=0.10, colors=[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.7, 0.7, 0.7],
+                                                                    [0.7, 0.7, 0.7], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]]), []),
+
+
         new Primitive("stand",      initCylinder(gl, radiusTop=0.07, radiusBottom=0.20, height=0.40, slices=50, stacks=2, colors=[[0.10, 0.40, 0.50], [0.30, 0.40, 0.50]]), []),
 
         new Primitive("nucleus_1",  initCylinder(gl, radiusTop=0.03, radiusBottom=0.03, height=0.2, slices=10, stacks=2, colors=[[0.00, 0.75, 0.50], [0.40, 0.20, 0.70]]), ["orbit_1"]),
@@ -215,7 +231,7 @@ function setScene() {
         }
 
         if (primitive.name == "model") {
-            primitive.localMatrix = transformConstructor([translation(0.5, -0.5, 0.0), rotation(0, 180, 0), scale(0.20, 0.20, 0.20)])
+            primitive.localMatrix = transformConstructor([translation(0.5, -0.5, 0.0), rotation(0, 180, 0), scale(0.00, 0.00, 0.00)])
         }
         if (primitive.name == "centroid") {
             primitive.mMatrix = translation(0.00, 0.05, -0.25);
@@ -241,6 +257,29 @@ function setScene() {
         }
         if (primitive.name == "arm_head") {
             primitive.localMatrix = transformConstructor([translation(0.00,  0.55, 0.10), scale(6.0, 0.05, 6.0)]);
+        }
+
+        if (primitive.name == "grab_head") {
+            primitive.localMatrix = transformConstructor([translation(0.0,  0.45, 0.00), scale(0.25, 1.00, 0.25)]);
+            primitive.mMatrix = translation(0.00, 0.10, -0.25);
+        }
+        if (primitive.name == "grab_top_1") {
+            primitive.localMatrix = transformConstructor([translation( 0.000, 0.35, 0.000), scale(2.00, 0.25, 0.25)]);
+        }
+        if (primitive.name == "grab_top_2") {
+            primitive.localMatrix = transformConstructor([translation( 0.000, 0.35, 0.000), scale(0.25, 0.25, 2.00)]);
+        }
+        if (primitive.name == "grab_1") {
+            primitive.localMatrix = transformConstructor([translation( 0.000, 0.20, 0.075), scale(0.25, 0.25, 0.25)]);
+        }
+        if (primitive.name == "grab_2") {
+            primitive.localMatrix = transformConstructor([translation( 0.000, 0.20, 0.425), scale(0.25, 0.25, 0.25)]);
+        }
+        if (primitive.name == "grab_3") {
+            primitive.localMatrix = transformConstructor([translation( 0.175, 0.20, 0.250), scale(0.25, 0.25, 0.25)]);
+        }
+        if (primitive.name == "grab_4") {
+            primitive.localMatrix = transformConstructor([translation(-0.175, 0.20, 0.250), scale(0.25, 0.25, 0.25)]);
         }
 
         if (primitive.name == "stand") {
@@ -369,7 +408,7 @@ function animationLoop() {
         // apply automatic movements to primitives
         sceneObjects.filter(primitive => {
 
-            if (primitive.name.includes("model")) {
+            if (primitive.name.includes("centroid")) {
                 primitive.mMatrix = playerMatrix;
             }
 

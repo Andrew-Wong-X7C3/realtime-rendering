@@ -1,4 +1,4 @@
-# CSE 5542: Real-Time Rendering - Lab 4
+# Real-Time Rendering
 Andrew Wong <br>
 Wong.816@osu.edu
 
@@ -7,9 +7,10 @@ Wong.816@osu.edu
 ---
 ## Files
 ---
-The lab 4 project consists of the following files:
+The project consists of the following files:
 
     - 3D_Model
+        - license.txt
         - default-grey.jpg
         - texture.jpg
         - model.json
@@ -26,9 +27,9 @@ The code was developed on Windows 11 using Firefox.
 ---
 ## Usage
 ---
-The scene is of a hazmat character in a room with a floating particle. The particle's nucleus has three sub-particles orbiting it.
+The scene is of a floating particle in a room. The particle's nucleus has three sub-particles orbiting it.
 
-The player controls the hazmat character. The controls are as follows:
+The player controls the particle. The controls are as follows:
 
     - W:            move forward
     - A:            move left
@@ -50,8 +51,3 @@ The light source can be moved in the world space using the following commands:
     - J/j:  X-axis
     - K/k:  Y-axis
     - L/l:  Z-axis
-
----
-## Local Server
----
-The code does not use any packaging software and requires a local server to work.
