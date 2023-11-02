@@ -2,7 +2,7 @@
 Andrew Wong <br>
 Wong.816@osu.edu
 
-![screenshot](screenshots/Capture.JPG)
+![gif](screenshots/Animation.GIF)
 
 ---
 ## Files
