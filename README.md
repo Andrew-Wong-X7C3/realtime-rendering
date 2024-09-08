@@ -9,18 +9,12 @@ Wong.816@osu.edu
 ---
 The project consists of the following files:
 
-    - 3D_Model
-        - license.txt
-        - default-grey.jpg
-        - texture.jpg
-        - model.json
-    - demo.txt
     - index.html
     - glMatrix-0.9.5.min.js
     - shader_setup.js
     - init_buffers.js
     - transformation.js
-    - lab_3.js
+    - scene.js
 
 The code was developed on Windows 11 using Firefox.
 

@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title> 5542 - Lab 4 </title>
+<title> Realtime Rendering </title>
 
 <!--  ************** Fragment Shader ************* --> 
 <script id="shader-fs" type="x-shader/x-fragment">
@@ -25,13 +25,9 @@
     uniform vec4 light_diffuse; 
     uniform vec4 light_specular;
 
-    uniform int use_texture;
-    uniform sampler2D texture;
-
-    varying vec4 eye_pos; 
+    varying vec4 eye_pos;
     varying vec3 v_normal;
-    varying vec4 vColor; 
-    varying highp vec2 FtexCoord;
+    varying vec4 vColor;
 
     void main(void) {
 
@@ -58,15 +54,7 @@
         else
             specular = vec4(0,0,0,1);  
 
-
-        // check to apply texture
-        if ( use_texture == 1 ) {
-            gl_FragColor = texture2D(texture, FtexCoord);
-        }
-        else {
-            gl_FragColor = vColor;
-        }
-        
+        gl_FragColor = vColor;
         gl_FragColor += ambient + diffuse + specular;
 
     }
@@ -79,7 +67,6 @@
     attribute vec3 aVertexPosition;
     attribute vec3 aVertexNormal;
     attribute vec3 aVertexColor;
-    attribute vec2 aVertexTexCoords;
 
     uniform mat4 uMMatrix; 
     uniform mat4 uVMatrix;
@@ -89,7 +76,6 @@
     varying vec4 eye_pos;
     varying vec3 v_normal;
     varying vec4 vColor;
-    varying highp vec2 FtexCoord;
 
     void main(void) {
         // transform the vertex position to eye space
@@ -97,8 +83,6 @@
 
         v_normal = normalize(vec3(uNMatrix * vec4(aVertexNormal,0.0)));
         gl_Position = uPMatrix * uVMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
-
-        FtexCoord = aVertexTexCoords;
         vColor = vec4(aVertexColor, 1.0);
     }
 </script>
@@ -107,7 +91,7 @@
 <script type="text/javascript" src="src/shaders_setup.js"></script>
 <script type="text/javascript" src="src/init_buffer.js"></script>
 <script type="text/javascript" src="src/transformation.js"></script>
-<script type="text/javascript" src="src/lab_4.js"></script>
+<script type="text/javascript" src="src/scene.js"></script>
 </head>
 
 <body onload="webGLStart();">
